@@ -1,1 +1,1 @@
-# Hafmanas
+# Hufmann code realisation
