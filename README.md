@@ -1,1 +1,1 @@
-# Hufmann code realisation
+# Huffman code realisation
