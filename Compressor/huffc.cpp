@@ -6,6 +6,13 @@
 #include <cstdlib>
 #include "hufftree.h"
 
+#include <iostream>
+#include <queue>
+#include <map>
+#include <climits> // for CHAR_BIT
+#include <iterator>
+#include <algorithm>
+
 using namespace std;
 
 
@@ -14,5 +21,7 @@ int main(int argc, char *argv[]) {
 	int k = atoi(argv[2]);
 	
 	Hufftree h(filename, k);
-	h.print_frequency_table();
+	h.find_bijection(k);
+	h.print_bijection();
 }
+
