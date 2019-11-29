@@ -1,0 +1,164 @@
+#include "streamer.h"
+
+Streamer::Streamer(string file, string cFile)
+{
+	myFile.open(file, ios::in | ios::binary);
+
+	compFile.open(cFile, ios::out | ios::binary);
+
+	read_from_file();
+}
+
+Streamer::~Streamer()
+{
+	myFile.close();
+	compFile.close();
+}
+
+
+//reads a portion of bits from file
+void Streamer::read_from_file()
+{
+	myFile.read(buffer, B);
+	get_bits(buffer);
+	if(!myFile)
+	{
+		n = myFile.gcount();
+	}
+	//cout<<"Bytes read: "<<n<<endl;
+}
+
+
+
+//converts char array to bitset
+void Streamer::get_bits(char s[B])
+{
+	for (int i = 0; i < B; ++i) {
+	  char c = s[i];
+	  for (int j = 7; j >= 0 && c; --j) {
+		 if (c & 0x1) {
+		   b.set(8 * i + j);
+		 }
+		 c >>= 1;
+	  }
+	}
+}
+
+
+//returns word from k bits
+int Streamer::get_k_bits(int k)
+{
+	w = 0;
+	for(int i = k-1; i >= 0; i--)
+	{
+		w += b[cursor]*pow(2, i);
+		cursor++;
+
+		if(n > 0)
+		{
+			if(cursor >= 8*n)
+			{
+				//all bits were read
+				//cout<<cursor<<endl;
+				return 0;
+			}
+		}
+		else if(cursor >= L)
+		{
+			//need to take new portion of data
+			cursor = 0;
+			b.reset();
+			read_from_file();
+		}
+	}
+
+	return 1;
+}
+
+void Streamer::return_myFile_to_begining()
+{
+    myFile.clear();
+    myFile.seekg(0);
+    b.reset();
+    cursor = 0;
+    n = -1;
+}
+
+void Streamer::put_bits_in_to_bitset(vector<bool> oneW)
+{
+    for(int i = 0; i < oneW.size(); i++)
+    {
+        ofB[ofCursor] = oneW[i];
+        ofCursor++;
+        lastConverted = false;
+        if(ofCursor >= L)
+        {
+            bitset_to_bytes();
+            ofB.reset();
+            ofCursor = 0;
+        }
+
+    }
+
+
+}
+
+void Streamer::bitset_to_bytes()
+{
+    lastConverted = true;
+
+    bitset<8> bit8;
+
+    ofBConPos = 0;
+    ofBuffSize = 0;
+    char oneBuff = 0;
+
+    //cout<<ofCursor<<endl;
+    while(ofBConPos < ofCursor){
+
+        oneBuff = 0;
+
+
+        for(int i = 7; i >= 0; i--)
+        {
+            bit8[i] = ofB[ofBConPos];
+            ofBConPos++;
+        }
+
+        //cout<<bit8.to_string()<<endl;
+        for (int j=0; j <8; j++)
+        {
+            if (bit8[j])
+                oneBuff |= 1 << j;
+        }
+
+
+
+        ofBuffer[ofBuffSize] = oneBuff;
+        ofBuffSize++;
+
+       /* if(ofBuffSize >= B)
+        {
+            write_to_file();
+            ofBuffSize = 0;
+        }*/
+
+        bit8.reset();
+    }
+   //  cout<<"Writing: "<<ofBuffSize<<" "<<ofBConPos<<" "<< ofCursor<<endl;
+
+
+    write_to_file();
+
+
+}
+
+void Streamer::write_to_file()
+{
+    //cout<<"to write"<<endl;
+    //cout<<"Writing: "<<ofBuffSize<<" "<<ofBConPos<<" "<< ofCursor<<endl;
+
+    compFile.write(ofBuffer, ofBuffSize);
+    //cout<<"it wrote"<<endl;
+}
+
