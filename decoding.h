@@ -12,13 +12,23 @@
 
 using namespace std;
 
+typedef std::vector<bool> HuffCode;
+
+//for creating map between old value and Hufmann code
+typedef std::map<int, HuffCode> HuffCodeMap;
+
 class Decoding
 {
     public:
 
         Streamer *stream;
-        Decoding(string fileRec, string fileWrite);
+        Hufftree *hufftree;
         int k;
+        hufftree.freq = 0;
+
+
+        Decoding(string fileRec, string fileWrite);
+        
 
 };
 

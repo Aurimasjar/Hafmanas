@@ -62,9 +62,6 @@ struct NodeCmp
 	bool operator()(const INode* lhs, const INode* rhs) const { return lhs->f > rhs->f; }
 };
 
-
-
-
 class Hufftree
 {
 	public:
@@ -76,6 +73,7 @@ class Hufftree
 		//vector<int> encodedBuff;
 
 		Hufftree(string filename, string compfilename, int k);
+		Hufftree(Streamer *str, int k);
 		~Hufftree();
 
 		void clean_stream();
@@ -90,8 +88,9 @@ class Hufftree
 		int FindMaxCodeLen(vector<int> keys);
 
 		vector<bool> GenLBitSet(int l, int Dec);
-
+	
 		void Encode(int k);
+		void Decode(int k);
 };
 
 
