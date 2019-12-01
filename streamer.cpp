@@ -114,7 +114,6 @@ void Streamer::bitset_to_bytes()
 
         oneBuff = 0;
 
-
         for(int i = 7; i >= 0; i--)
         {
             bit8[i] = ofB[ofBConPos];
@@ -128,8 +127,6 @@ void Streamer::bitset_to_bytes()
                 oneBuff |= 1 << j;
         }
 
-
-
         ofBuffer[ofBuffSize] = oneBuff;
         ofBuffSize++;
 
@@ -142,12 +139,21 @@ void Streamer::bitset_to_bytes()
 
 }
 
+void Streamer::read_bits_from_file()
+{
+    myFile.read(buffer, B);
+}
+
+void Streamer::write_text_to_file()
+{
+    compFile.write(ofBuffer, ofBuffSize);
+}
+
 //prints byte buffer to file
 void Streamer::write_to_file()
 {
     compFile.write(ofBuffer, ofBuffSize);
 }
-
 
 //reads a portion of bits from file
 void Streamer::read_from_file()
@@ -158,6 +164,7 @@ void Streamer::read_from_file()
 	{
 		n = myFile.gcount();
 	}
+    //n = how many bytes were read
 	//cout<<"Bytes read: "<<n<<endl;
 }
 

@@ -12,8 +12,14 @@
 
 using namespace std;
 
-class Decoding{
-    
+class Decoding
+{
+    public:
+
+        Streamer *stream;
+        Decoding(string fileRec, string fileWrite);
+        int k;
+
 };
 
 #endif

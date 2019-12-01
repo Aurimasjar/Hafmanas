@@ -40,6 +40,10 @@ class Streamer
 
 		void read_from_file();
 		void write_to_file();
+
+		void read_bits_from_file();
+		void write_text_to_file();
+
 		
 		void return_myFile_to_begining();
 
