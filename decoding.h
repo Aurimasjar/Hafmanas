@@ -15,10 +15,11 @@ using namespace std;
 class Decoding
 {
     public:
-
         Streamer *stream;
-        Decoding(string fileRec, string fileWrite);
         int k;
+
+        Decoding(string fileRec, string fileWrite);
+        ~Decoding();
 
 };
 
