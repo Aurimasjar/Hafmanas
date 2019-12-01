@@ -24,7 +24,6 @@ void Hufftree::get_frequency_table(int k)
             freq[stream->w]++;
             break;
         }
-
         freq[stream->w]++;
 	}
 	//cout << stream->w << endl;
@@ -122,6 +121,7 @@ int Hufftree::FindMaxCodeLen(vector<int> keys)
     return max_len;
 }
 
+//Generates and prints number from decimal to binary
 vector<bool> Hufftree::GenLBitSet(int l, int Dec)
 {
     bitset<64> key_bit_set(Dec);
@@ -180,23 +180,19 @@ void Hufftree::GenerateHeader(int k)
     //GenLBitSet(8, nH);
     stream->put_bits_in_to_bitset(GenLBitSet(16,keys.size()));
 
+
     for(int i = 0; i < keys.size(); i++)
     {
+        cout << "In decimal: "<< keys[i] << " " << freq[keys[i]] << endl << "In binary: " << endl;
 
-       // cout<<keys[i]<<" ";
         stream->put_bits_in_to_bitset(GenLBitSet(k, keys[i]));
-
-        cout<<keys[i]<<" "<<freq[keys[i]]<<endl;
-        //cout<<freq[97]<<endl;
-        //
         stream->put_bits_in_to_bitset(GenLBitSet(32, freq[keys[i]]));
 
        //  stream->put_bits_in_to_bitset(codes[keys[i]]);
 
     }
-   // cout<<endl;
 
-    cout<<keys.size()<<endl;
+
 
 
     if(stream->lastConverted == false)
