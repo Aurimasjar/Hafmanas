@@ -142,12 +142,13 @@ void Streamer::bitset_to_bytes()
 void Streamer::read_bits_from_file()
 {
     myFile.read(buffer, B);
+    	if(!myFile)
+	{
+		n = myFile.gcount();
+	}
 }
 
-void Streamer::write_text_to_file()
-{
-    compFile.write(ofBuffer, ofBuffSize);
-}
+
 
 //prints byte buffer to file
 void Streamer::write_to_file()

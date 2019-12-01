@@ -9,8 +9,6 @@ Decoding::Decoding(string fileRec, string fileWrite)
     k=stream->w;
 }
 
-
-
 Decoding::~Decoding()
 {
 

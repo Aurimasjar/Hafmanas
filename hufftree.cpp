@@ -8,6 +8,13 @@ Hufftree::Hufftree(string filename,string compfilename, int k)
 	get_frequency_table(k);
 }
 
+Hufftree::Hufftree(Streamer *str, int k)
+{
+	quantity = pow(2, k);
+	freq.resize(quantity);
+	stream = str;
+}
+
 Hufftree::~Hufftree()
 {
     clean_stream();
@@ -167,8 +174,6 @@ void Hufftree::GenerateHeader(int k)
 
     stream->put_bits_in_to_bitset(k_bool_bits);
 
-
-
     vector<int> keys;
     for(map<int, HuffCode>::iterator it = codes.begin(); it != codes.end(); ++it) {
         keys.push_back(it->first);
@@ -180,7 +185,6 @@ void Hufftree::GenerateHeader(int k)
     //GenLBitSet(8, nH);
     stream->put_bits_in_to_bitset(GenLBitSet(16,keys.size()));
 
-
     for(int i = 0; i < keys.size(); i++)
     {
         cout << "In decimal: "<< keys[i] << " " << freq[keys[i]] << endl << "In binary: " << endl;
@@ -191,9 +195,6 @@ void Hufftree::GenerateHeader(int k)
        //  stream->put_bits_in_to_bitset(codes[keys[i]]);
 
     }
-
-
-
 
     if(stream->lastConverted == false)
     {
@@ -223,5 +224,25 @@ void Hufftree::Encode(int k)
     {
         stream->bitset_to_bytes();
         //stream->write_to_file();
+    }
+}
+
+ void Hufftree::Decode(int k)
+{
+    stream->read_from_file();
+
+    while(1)
+    {
+        if(stream->get_k_bits(k) == 0)
+        {
+            stream->put_bits_in_to_bitset(codes[stream->w]);
+            break;
+        }
+       stream->put_bits_in_to_bitset(codes[stream->w]);
+    }
+
+    if(stream->lastConverted == false)
+    {
+        stream->bitset_to_bytes();
     }
 }
