@@ -24,35 +24,35 @@ typedef std::map<int, HuffCode> HuffCodeMap;
 class INode
 {
 	public:
-	const int f;
+		const int f;
 
-	virtual ~INode() {}
+		virtual ~INode() {}
 
-	protected:
-	INode(int f) : f(f) {}
+		protected:
+		INode(int f) : f(f) {}
 };
 
 //non-leaf node class
 class InternalNode : public INode
 {
 	public:
-	INode *const left;
-	INode *const right;
+		INode *const left;
+		INode *const right;
 
-	InternalNode(INode* c0, INode* c1) : INode(c0->f + c1->f), left(c0), right(c1) {}
-	~InternalNode()
-	{
-		delete left;
-		delete right;
-	}
+		InternalNode(INode* c0, INode* c1) : INode(c0->f + c1->f), left(c0), right(c1) {}
+		~InternalNode()
+		{
+			delete left;
+			delete right;
+		}
 };
 
 //leaf node class
 class LeafNode : public INode
 {
 	public:
-	const int c;
-	LeafNode(int f, int c) : INode(f), c(c) {}
+		const int c;
+		LeafNode(int f, int c) : INode(f), c(c) {}
 };
 
 //for sorting nodes by their values
@@ -68,32 +68,30 @@ struct NodeCmp
 class Hufftree
 {
 	public:
-	Streamer *stream;
-	vector<int> freq;
-	int quantity;
-	HuffCodeMap codes;
+		Streamer *stream;
+		vector<int> freq;
+		int quantity;
+		HuffCodeMap codes;
 
-	//vector<int> encodedBuff;
+		//vector<int> encodedBuff;
 
-	Hufftree(string filename, string compfilename, int k);
-	~Hufftree();
-	void clean_stream();
-	void get_frequency_table(int k);
-	void find_bijection(int k);
-	void print_bijection();
+		Hufftree(string filename, string compfilename, int k);
+		~Hufftree();
 
-	INode* BuildTree(int k);
-	void GenerateCodes(const INode* node, const HuffCode &prefix, HuffCodeMap &outCodes);
+		void clean_stream();
+		void get_frequency_table(int k);
+		void find_bijection(int k);
+		void print_bijection();
 
-	void GenerateHeader(int k);
+		INode* BuildTree(int k);
+		void GenerateCodes(const INode* node, const HuffCode &prefix, HuffCodeMap &outCodes);
+		void GenerateHeader(int k);
 
-	int FindMaxCodeLen(vector<int> keys);
+		int FindMaxCodeLen(vector<int> keys);
 
-	vector<bool> GenLBitSet(int l, int Dec);
+		vector<bool> GenLBitSet(int l, int Dec);
 
-	void Encode(int k);
-
-
+		void Encode(int k);
 };
 
 

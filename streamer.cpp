@@ -16,20 +16,6 @@ Streamer::~Streamer()
 }
 
 
-//reads a portion of bits from file
-void Streamer::read_from_file()
-{
-	myFile.read(buffer, B);
-	get_bits(buffer);
-	if(!myFile)
-	{
-		n = myFile.gcount();
-	}
-	//cout<<"Bytes read: "<<n<<endl;
-}
-
-
-
 //converts char array to bitset
 void Streamer::get_bits(char s[B])
 {
@@ -160,5 +146,18 @@ void Streamer::bitset_to_bytes()
 void Streamer::write_to_file()
 {
     compFile.write(ofBuffer, ofBuffSize);
+}
+
+
+//reads a portion of bits from file
+void Streamer::read_from_file()
+{
+	myFile.read(buffer, B);
+	get_bits(buffer);
+	if(!myFile)
+	{
+		n = myFile.gcount();
+	}
+	//cout<<"Bytes read: "<<n<<endl;
 }
 
