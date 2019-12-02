@@ -139,6 +139,21 @@ void Streamer::bitset_to_bytes()
 
 }
 
+//fills buffer to write to file
+void Streamer::buffer_to_file(char buff)
+{
+    ofBuffer[ofBuffSize] = buff;
+    ofBuffSize++;
+    if (ofBuffSize = B){
+        write_to_file();
+        ofBuffSize = 0;
+        for(int i = 0; i < B; i++){
+            ofBuffer[i] = NULL;
+        }
+    }
+}
+
+
 void Streamer::read_bits_from_file()
 {
     myFile.read(buffer, B);
