@@ -205,7 +205,7 @@ void Hufftree::GenerateHeader(int k)
         codeAmm += freq[keys[i]] * codes[keys[i]].size();
     }
 
-    int lastBitamm = 8-(codeAmm%8);
+    lastBitamm = 8-(codeAmm%8);
 
     stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
 
@@ -226,6 +226,9 @@ void Hufftree::Encode(int k)
 {
     stream->return_myFile_to_begining();
     stream->read_from_file();
+
+
+    stream->put_bits_in_to_bitset(GenLBitSet(lastBitamm, 0));
 
     while(1)
     {
