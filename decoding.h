@@ -21,19 +21,15 @@ class Decoding
 {
     public:
         Streamer *stream;
-<<<<<<< HEAD
-=======
         Hufftree *hufftree;
->>>>>>> 71af5d22050d291c09812b54262fd0aff335d00a
         int k;
-        hufftree.freq = 0;
-
-
-        Decoding(string fileRec, string fileWrite);
-        
+        int wordCount;
+        //hufftree.freq = 0;
 
         Decoding(string fileRec, string fileWrite);
         ~Decoding();
+
+        void ReadTable();
 
 };
 

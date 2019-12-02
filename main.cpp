@@ -27,9 +27,10 @@ int main(int argc, char *argv[]) {
 	//bitset<4> test(k);
 	//cout<<test.to_string()<<endl;
 
+	cout << "Decoding started..." << endl;
 	Decoding d(compfilename, endfile);
 
 
-	cin.get();
+	//cin.get();
 }
 
