@@ -93,7 +93,7 @@ class Hufftree
 		vector<bool> GenLBitSet(int l, int Dec);
 	
 		void Encode(int k);
-		void Decode(int k);
+		void Decode(int k, int max_word_length);
 };
 
 
