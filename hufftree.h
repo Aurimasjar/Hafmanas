@@ -88,6 +88,8 @@ class Hufftree
 
 		int FindMaxCodeLen(vector<int> keys);
 
+		int getCodeValue(HuffCode v);
+
 		vector<bool> GenLBitSet(int l, int Dec);
 	
 		void Encode(int k);

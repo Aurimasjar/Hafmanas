@@ -232,9 +232,17 @@ void Hufftree::Encode(int k)
     }
 }
 
+int Hufftree::getCodeValue(HuffCode v)
+{
+    for (auto it = codes.begin(); it != codes.end(); ++it)
+    if (it->second == v)
+        return it->first;
+}
+
  void Hufftree::Decode(int k)
 {
     cout << "Decoding..." << endl;
+
     stream->read_from_file();
 
     while(1)

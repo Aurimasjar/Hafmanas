@@ -18,6 +18,8 @@ Decoding::Decoding(string fileRec, string fileWrite)
     hufftree->find_bijection(k);
     cout << "Attempting to print" << endl;
     hufftree->print_bijection();
+
+    hufftree->Decode(k);
 }
 
 void Decoding::ReadTable()
