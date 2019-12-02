@@ -39,5 +39,6 @@ void Decoding::ReadTable()
 
 Decoding::~Decoding()
 {
-
+    delete hufftree;
+    delete stream;
 }
