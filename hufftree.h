@@ -80,6 +80,7 @@ class Hufftree
 		void get_frequency_table(int k);
 		void find_bijection(int k);
 		void print_bijection();
+		void set_frequency_table(int word, int frequency);
 
 		INode* BuildTree(int k);
 		void GenerateCodes(const INode* node, const HuffCode &prefix, HuffCodeMap &outCodes);

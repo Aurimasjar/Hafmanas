@@ -42,6 +42,11 @@ void Hufftree::clean_stream()
 	delete stream;
 }
 
+void Hufftree::set_frequency_table(int word, int frequency)
+{
+    freq[word] = frequency;
+}
+
 
 //constructs Hufmann tree
 INode* Hufftree::BuildTree(int k)
