@@ -69,6 +69,7 @@ class Hufftree
 		vector<int> freq;
 		int quantity;
 		HuffCodeMap codes;
+		int lastBitamm;
 
 		//vector<int> encodedBuff;
 

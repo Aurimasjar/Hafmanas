@@ -184,6 +184,8 @@ void Hufftree::GenerateHeader(int k)
 
     stream->put_bits_in_to_bitset(k_bool_bits);
 
+
+
     vector<int> keys;
     for(map<int, HuffCode>::iterator it = codes.begin(); it != codes.end(); ++it) {
         keys.push_back(it->first);
@@ -197,14 +199,36 @@ void Hufftree::GenerateHeader(int k)
 
     for(int i = 0; i < keys.size(); i++)
     {
-        //cout << "In decimal: "<< keys[i] << " " << freq[keys[i]] << endl << "In binary: " << endl;
 
+       // cout<<keys[i]<<" ";
         stream->put_bits_in_to_bitset(GenLBitSet(k, keys[i]));
+
+        //cout<<keys[i]<<" "<<freq[keys[i]]<<endl;
+        //cout<<freq[97]<<endl;
+        //
         stream->put_bits_in_to_bitset(GenLBitSet(32, freq[keys[i]]));
 
        //  stream->put_bits_in_to_bitset(codes[keys[i]]);
 
     }
+   // cout<<endl;
+
+    //cout<<keys.size()<<endl;
+
+    unsigned int codeAmm = 0;
+    for(int i = 0; i<keys.size(); i++)
+    {
+       // cout<<freq[keys[i]]<<" "<<codes[keys[i]].size()<<" "<<keys[i]<<endl;
+        codeAmm += freq[keys[i]] * codes[keys[i]].size();
+    }
+
+    lastBitamm = 8-(codeAmm%8);
+
+    stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
+
+    cout<<lastBitamm<<endl;
+
+
 
     if(stream->lastConverted == false)
     {
@@ -220,11 +244,15 @@ void Hufftree::Encode(int k)
     stream->return_myFile_to_begining();
     stream->read_from_file();
 
+
+    stream->put_bits_in_to_bitset(GenLBitSet(lastBitamm, 0));
+
     while(1)
     {
         if(stream->get_k_bits(k) == 0)
         {
             stream->put_bits_in_to_bitset(codes[stream->w]);
+
             break;
         }
        stream->put_bits_in_to_bitset(codes[stream->w]);
