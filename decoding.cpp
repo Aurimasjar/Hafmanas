@@ -4,7 +4,6 @@
 Decoding::Decoding(string fileRec, string fileWrite)
 {
     stream = new Streamer(fileRec, fileWrite);
-    stream->read_from_file();
     stream->get_k_bits(4);
     k = stream->w + 1;
     hufftree = new Hufftree(stream, k);
@@ -18,8 +17,7 @@ Decoding::Decoding(string fileRec, string fileWrite)
     hufftree->find_bijection(k);
     cout << "Attempting to print" << endl;
     hufftree->print_bijection();
-
-    hufftree->Decode(k);
+    hufftree->Decode(k, wordCount);
 }
 
 void Decoding::ReadTable()

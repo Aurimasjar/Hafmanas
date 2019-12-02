@@ -30,7 +30,7 @@ class Streamer
 		int ofCursor = 0;
 		ofstream compFile;
 		bool lastConverted = false;
-
+		
 		Streamer(string file, string cFile);
 		~Streamer();
 
@@ -43,6 +43,8 @@ class Streamer
 
 		void read_bits_from_file();
 		void write_text_to_file();
+
+		vector<bool> get_coded_word(int num_max);
 
 		
 		void return_myFile_to_begining();

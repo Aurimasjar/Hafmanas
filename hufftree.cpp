@@ -239,20 +239,24 @@ int Hufftree::getCodeValue(HuffCode v)
         return it->first;
 }
 
- void Hufftree::Decode(int k)
+ void Hufftree::Decode(int k, int word_count)
 {
     cout << "Decoding..." << endl;
+    int word;
+    int maxWL;
+
+    if (word_count > 2)
+    {
+        maxWL = word_count -1;
+    }
+    else maxWL = 1;
 
     stream->read_from_file();
 
-    while(1)
+    for(int i = 0; i < 10; i++)
     {
-        if(stream->get_k_bits(k) == 0)
-        {
-            stream->put_bits_in_to_bitset(codes[stream->w]);
-            break;
-        }
-       stream->put_bits_in_to_bitset(codes[stream->w]);
+        word = getCodeValue(stream->get_coded_word(maxWL));
+        cout << word << " ";
     }
 
     if(stream->lastConverted == false)
