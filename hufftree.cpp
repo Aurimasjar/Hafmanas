@@ -97,7 +97,7 @@ void Hufftree::GenerateCodes(const INode* node, const HuffCode &prefix, HuffCode
 		GenerateCodes(in->right, rightPrefix, outCodes);
 	}
 }
-De
+
 //finds bijection form word of k bits to Huffman code
 void Hufftree::find_bijection(int k)
 {
@@ -235,7 +235,7 @@ void Hufftree::Encode(int k)
  void Hufftree::Decode(int k)
 {
     cout << "Decoding..." << endl;
-    //stream->read_from_file();
+    stream->read_from_file();
 
     while(1)
     {
