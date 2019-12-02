@@ -42,7 +42,7 @@ class Streamer
 		void write_to_file();
 
 		void read_bits_from_file();
-		void write_text_to_file();
+		void buffer_to_file(char buff);
 
 		void return_myFile_to_begining();
 
