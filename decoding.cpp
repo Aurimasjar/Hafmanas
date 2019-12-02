@@ -19,7 +19,6 @@ void Decoding::ReadTable()
     int ascii, asciiCount;
     for (int i = 0; i < wordCount; i++)
     {
-
         if(stream->get_k_bits(k) == 1) // all bits were succesfuly read
             ascii = stream->w;
         cout << "ascii: " << ascii << endl;
@@ -27,8 +26,9 @@ void Decoding::ReadTable()
             asciiCount = stream->w;
         cout << "asciiCount: " << asciiCount << endl;
     }
-
 }
+
+
 
 Decoding::~Decoding()
 {
