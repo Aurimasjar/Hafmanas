@@ -15,8 +15,7 @@ Decoding::Decoding(string fileRec, string fileWrite)
     ReadTable();
     cout << "Attempting to build a tree." << endl;
     hufftree->find_bijection(k);
-    cout << "Attempting to print" << endl;
-    hufftree->print_bijection();
+    //hufftree->print_bijection();
     Decode();
 }
 
@@ -27,10 +26,10 @@ void Decoding::ReadTable()
     {
         if(stream->get_k_bits(k) == 1) // all bits were succesfuly read
             ascii = stream->w;
-        cout << "ascii: " << ascii << endl;
+        //cout << "ascii: " << ascii << endl;
         if(stream->get_k_bits(32) == 1) // all bits were succesfuly read
             asciiCount = stream->w;
-        cout << "asciiCount: " << asciiCount << endl;
+        //cout << "asciiCount: " << asciiCount << endl;
         hufftree->set_frequency_table(ascii, asciiCount);
     }
 }

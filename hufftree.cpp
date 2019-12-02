@@ -112,7 +112,7 @@ void Hufftree::print_bijection()
 {
 	for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
 	{
-		cout << freq[it->first] << " | " << it->first << "d ";
+		cout << freq[it->first] << " | " << (char)it->first << " " << it->first << "d ";
 		copy(it->second.begin(), it->second.end(), ostream_iterator<bool>(cout));
 		cout << endl;
 	}
@@ -154,9 +154,9 @@ vector<bool> Hufftree::GenLBitSet(int l, int Dec)
 
     for(int i = 0; i< key_bit_vector.size(); i++)
     {
-        cout<<key_bit_vector[i];
+        //cout<<key_bit_vector[i];
     }
-    cout<<endl;
+    //cout<<endl;
 
    return key_bit_vector;
 }
@@ -197,7 +197,7 @@ void Hufftree::GenerateHeader(int k)
 
     for(int i = 0; i < keys.size(); i++)
     {
-        cout << "In decimal: "<< keys[i] << " " << freq[keys[i]] << endl << "In binary: " << endl;
+        //cout << "In decimal: "<< keys[i] << " " << freq[keys[i]] << endl << "In binary: " << endl;
 
         stream->put_bits_in_to_bitset(GenLBitSet(k, keys[i]));
         stream->put_bits_in_to_bitset(GenLBitSet(32, freq[keys[i]]));
