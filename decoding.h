@@ -30,6 +30,7 @@ class Decoding
         ~Decoding();
 
         void ReadTable();
+        void Decode();
 
 };
 

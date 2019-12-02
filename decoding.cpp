@@ -17,7 +17,7 @@ Decoding::Decoding(string fileRec, string fileWrite)
     hufftree->find_bijection(k);
     cout << "Attempting to print" << endl;
     hufftree->print_bijection();
-    hufftree->Decode(k, wordCount);
+    Decode();
 }
 
 void Decoding::ReadTable()
@@ -35,6 +35,26 @@ void Decoding::ReadTable()
     }
 }
 
+void Decoding::Decode()
+{
+    HuffCodeMap codes;
+    codes = hufftree->getCodes();
+    cout<<"Decoded:"<<endl;
+    vector <bool> tmp;
+    for(int i = 0; i < 1000; i++)
+    {
+        stream->get_k_bits(1);
+        tmp.push_back(stream->w);
+        for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
+        {
+            if(tmp == it->second) {
+                cout<<(char)it->first;
+                tmp.clear();
+                break;                    
+            }
+        }
+    }
+}
 
 
 Decoding::~Decoding()

@@ -118,6 +118,11 @@ void Hufftree::print_bijection()
 	}
 }
 
+HuffCodeMap Hufftree::getCodes()
+{
+    return codes;
+}
+
 int Hufftree::FindMaxCodeLen(vector<int> keys)
 {
     int max_len = 0;
@@ -229,38 +234,5 @@ void Hufftree::Encode(int k)
     {
         stream->bitset_to_bytes();
         //stream->write_to_file();
-    }
-}
-
-int Hufftree::getCodeValue(HuffCode v)
-{
-    for (auto it = codes.begin(); it != codes.end(); ++it)
-        if (it->second == v)
-            return it->first;
-}
-
- void Hufftree::Decode(int k, int word_count)
-{
-    cout << "Decoding..." << endl;
-    int word;
-    int maxWL;
-
-    if (word_count > 2)
-    {
-        maxWL = word_count -1;
-    }
-    else maxWL = 1;
-
-    stream->read_from_file();
-
-    for(int i = 0; i < 10; i++)
-    {
-        word = getCodeValue(stream->get_coded_word(maxWL));
-        cout << word << " ";
-    }
-
-    if(stream->lastConverted == false)
-    {
-        stream->bitset_to_bytes();
     }
 }

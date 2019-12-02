@@ -30,36 +30,6 @@ void Streamer::get_bits(char s[B])
 	}
 }
 
-vector<bool> Streamer::get_coded_word(int num_max)
-{
-    vector<bool> bits;
-
-    for(int i = 0; i < num_max; i++ ){
-        bits.push_back(b[cursor]);
-        cursor++;
-        if (bits[i] == '1')
-        {
-            if(cursor >= L)
-            {
-                //need to take new portion of data
-                cursor = 0;
-                b.reset();
-                read_from_file();
-            }
-            return bits;
-        }
-        else if(cursor >= L)
-		{
-			//need to take new portion of data
-			cursor = 0;
-			b.reset();
-			read_from_file();
-		}
-
-    }
-    return bits;
-}
-
 
 //returns word from k bits
 int Streamer::get_k_bits(int k)
