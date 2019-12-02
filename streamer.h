@@ -32,6 +32,7 @@ class Streamer
 		bool lastConverted = false;
 		
 		Streamer(string file, string cFile);
+		Streamer(string file, string cFile, int i);
 		~Streamer();
 
 		void get_bits(char s[B]);
@@ -40,6 +41,7 @@ class Streamer
 
 		void read_from_file();
 		void write_to_file();
+		void write_to_filed();
 
 		void read_bits_from_file();
 		void buffer_to_file(char buff);

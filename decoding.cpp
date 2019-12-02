@@ -3,7 +3,7 @@
 
 Decoding::Decoding(string fileRec, string fileWrite)
 {
-    stream = new Streamer(fileRec, fileWrite);
+    stream = new Streamer(fileRec, fileWrite, 1);
     stream->get_k_bits(4);
     k = stream->w + 1;
     hufftree = new Hufftree(stream, k);
@@ -42,7 +42,7 @@ void Decoding::Decode()
     cout<<"Decoded:"<<endl;
     vector <bool> tmp;
 
-    stream->ofBuffSize = 0;
+
     while(true)
     {
         if(stream->get_k_bits(1) == 0)
@@ -51,8 +51,8 @@ void Decoding::Decode()
         for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
         {
             if(tmp == it->second) {
-                cout<<(char)it->first;
-                buffer_to_file((char)it->first);
+                //cout<<(char)it->first;
+                stream->buffer_to_file((char)it->first);
                 tmp.clear();
                 break;                    
             }

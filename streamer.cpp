@@ -8,6 +8,15 @@ Streamer::Streamer(string file, string cFile)
 
 	read_from_file();
 }
+Streamer::Streamer(string file, string cFile, int i)
+{
+	myFile.open(file, ios::in | ios::binary);
+
+	compFile.open(cFile, ios::out);
+
+	read_from_file();
+}
+
 
 Streamer::~Streamer()
 {
@@ -144,12 +153,12 @@ void Streamer::buffer_to_file(char buff)
 {
     ofBuffer[ofBuffSize] = buff;
     ofBuffSize++;
-    if (ofBuffSize = B){
-        write_to_file();
-        ofBuffSize = 0;
+    if (ofBuffSize == B){      
+        compFile.write(ofBuffer, ofBuffSize);
         for(int i = 0; i < B; i++){
             ofBuffer[i] = NULL;
         }
+        ofBuffSize = 0;
     }
 }
 
