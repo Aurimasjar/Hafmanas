@@ -32,6 +32,7 @@ void Decoding::ReadTable()
         //cout << "asciiCount: " << asciiCount << endl;
         hufftree->set_frequency_table(ascii, asciiCount);
     }
+    stream->get_k_bits(4);
 }
 
 void Decoding::Decode()
@@ -40,19 +41,25 @@ void Decoding::Decode()
     codes = hufftree->getCodes();
     cout<<"Decoded:"<<endl;
     vector <bool> tmp;
-    for(int i = 0; i < 1000; i++)
+
+    stream->ofBuffSize = 0;
+    while(true)
     {
-        stream->get_k_bits(1);
+        if(stream->get_k_bits(1) == 0)
+            break;
         tmp.push_back(stream->w);
         for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
         {
             if(tmp == it->second) {
                 cout<<(char)it->first;
+                buffer_to_file((char)it->first);
                 tmp.clear();
                 break;                    
             }
         }
     }
+    stream->write_to_file();
+    
 }
 
 
