@@ -33,6 +33,8 @@ void Decoding::ReadTable()
         hufftree->set_frequency_table(ascii, asciiCount);
     }
     stream->get_k_bits(4);
+    int ignore = stream->w;
+    stream->get_k_bits(ignore);
 }
 
 void Decoding::Decode()
