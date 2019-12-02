@@ -52,14 +52,14 @@ void Decoding::Decode()
         {
             if(tmp == it->second) {
                 cout<<(char)it->first;
-                buffer_to_file((char)it->first);
+                stream->buffer_to_file((char)it->first);
                 tmp.clear();
                 break;                    
             }
         }
     }
     stream->write_to_file();
-    
+
 }
 
 
