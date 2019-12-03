@@ -21,6 +21,8 @@ int main(int argc, char *argv[]) {
 			case 1:{
 				cout << "Enter original file: ";
 				cin >> originalFile;
+				cout << "Enter encoded file: ";
+				cin >> endcodedFile;
 				cout << "Enter k: ";
 				cin >> k;
 				Hufftree h(originalFile, endcodedFile, k);
@@ -33,6 +35,8 @@ int main(int argc, char *argv[]) {
 				break;
 			}
 			case 2:{
+				cout << "Enter file to decode: ";
+				cin >> endcodedFile;
 				cout << "Decoded file name: ";
 				cin >> decodedFile;
 				Decoding d(endcodedFile, decodedFile);
