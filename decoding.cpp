@@ -13,6 +13,7 @@ Decoding::Decoding(string fileRec, string fileWrite)
     stream->get_k_bits(16);
     wordCount = stream->w;
     cout << "wordCount = " << wordCount << endl;
+    cout << "ignore = " << ignore << endl;
     cout << "Atempting to make table." << endl;
     ReadTable();
     cout << "Attempting to build a tree." << endl;
