@@ -152,12 +152,10 @@ void Streamer::bitset_to_bytes()
 void Streamer::buffer_to_file(char buff)
 {
     ofBuffer[ofBuffSize] = buff;
-    cout << buff;
     ofBuffSize++;
     if (ofBuffSize == B){
         compFile.write(ofBuffer, ofBuffSize);
         for(int i = 0; i < B; i++){
-            cout << ofBuffer[i];
             ofBuffer[i] = NULL;
         }
         ofBuffSize = 0;

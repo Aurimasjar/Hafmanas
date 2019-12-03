@@ -48,8 +48,19 @@ void Decoding::Decode()
 
     while(true)
     {
-        if(stream->get_k_bits(1) == 0)
+        if(stream->get_k_bits(1) == 0){
+            tmp.push_back(stream->w);
+            for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
+            {
+                if(tmp == it->second) {
+                    //cout<<(char)it->first;
+                    stream->buffer_to_file((char)it->first);
+                    tmp.clear();
+                    break;                    
+                }
+            }
             break;
+        }
         tmp.push_back(stream->w);
         for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
         {
