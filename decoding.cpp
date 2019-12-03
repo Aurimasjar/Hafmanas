@@ -45,6 +45,7 @@ void Decoding::Decode()
     //cout<<"Decoded:"<<endl;
     vector <bool> tmp;
 
+    //hufftree->GenLBitSet();
 
     while(true)
     {
@@ -53,10 +54,12 @@ void Decoding::Decode()
             for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
             {
                 if(tmp == it->second) {
-                    //cout<<(char)it->first;
-                    stream->buffer_to_file((char)it->first);
+                    //cout<<it->first<<endl;
+                    //hufftree->GenLBitSet(k,it->first);
+
+                    stream->put_bits_in_to_bitset(hufftree->GenLBitSet(k,it->first));
                     tmp.clear();
-                    break;                    
+                    break;
                 }
             }
             break;
@@ -66,13 +69,27 @@ void Decoding::Decode()
         {
             if(tmp == it->second) {
                 //cout<<(char)it->first;
-                stream->buffer_to_file((char)it->first);
+                //cout<<it->first<<" dec "<<endl;
+                //hufftree->GenLBitSet(k,it->first);
+
+                //stream->buffer_to_file((char)it->first);
+                stream->put_bits_in_to_bitset(hufftree->GenLBitSet(k,it->first));
                 tmp.clear();
-                break;                    
+                break;
             }
         }
     }
-    stream->write_to_file();
+
+
+
+
+    //stream->ofBuffSize-1;
+
+    if(stream->lastConverted == false)
+    {
+        stream->bitset_to_bytes();
+        //stream->write_to_file();
+    }
 
 }
 

@@ -152,11 +152,11 @@ vector<bool> Hufftree::GenLBitSet(int l, int Dec)
         j++;
     }
 
-    for(int i = 0; i< key_bit_vector.size(); i++)
+    /*for(int i = 0; i< key_bit_vector.size(); i++)
     {
-        //cout<<key_bit_vector[i];
+        cout<<key_bit_vector[i];
     }
-    //cout<<endl;
+    cout<<endl;*/
 
    return key_bit_vector;
 }
@@ -200,6 +200,9 @@ void Hufftree::GenerateHeader(int k)
     }
 
     lastBitamm = 8-(codeAmm%8);
+    if(lastBitamm == 8){
+        lastBitamm = 0;
+    }
 
     stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
 
