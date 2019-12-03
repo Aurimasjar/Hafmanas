@@ -82,8 +82,8 @@ void Streamer::return_myFile_to_begining()
     lastConverted = false;
     ofBConPos = 0;
     ofBuffSize = 0;
-    ofCursor = 0;
-    ofB.reset();
+    //ofCursor = 0;
+    //ofB.reset();
 
 }
 
@@ -153,7 +153,7 @@ void Streamer::buffer_to_file(char buff)
 {
     ofBuffer[ofBuffSize] = buff;
     ofBuffSize++;
-    if (ofBuffSize == B){      
+    if (ofBuffSize == B){
         compFile.write(ofBuffer, ofBuffSize);
         for(int i = 0; i < B; i++){
             ofBuffer[i] = NULL;

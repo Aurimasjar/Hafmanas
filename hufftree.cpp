@@ -192,6 +192,21 @@ void Hufftree::GenerateHeader(int k)
        // cout << it->first << "\n";
     }
 
+    uint64_t  codeAmm = 0;
+    for(int i = 0; i<keys.size(); i++)
+    {
+       // cout<<freq[keys[i]]<<" "<<codes[keys[i]].size()<<" "<<keys[i]<<endl;
+        codeAmm += freq[keys[i]] * codes[keys[i]].size();
+    }
+
+    lastBitamm = 8-(codeAmm%8);
+
+    stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
+
+    cout<<lastBitamm<<endl;
+
+
+
     //int nH = FindMaxCodeLen(keys);
 
     //GenLBitSet(8, nH);
@@ -215,32 +230,21 @@ void Hufftree::GenerateHeader(int k)
 
     //cout<<keys.size()<<endl;
 
-    unsigned int codeAmm = 0;
-    for(int i = 0; i<keys.size(); i++)
-    {
-       // cout<<freq[keys[i]]<<" "<<codes[keys[i]].size()<<" "<<keys[i]<<endl;
-        codeAmm += freq[keys[i]] * codes[keys[i]].size();
-    }
 
-    lastBitamm = 8-(codeAmm%8);
-
-    stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
-
-    cout<<lastBitamm<<endl;
-
-
-
-    if(stream->lastConverted == false)
+   /* if(stream->lastConverted == false)
     {
         stream->bitset_to_bytes();
         //stream->write_to_file();
-    }
+    }*/
 
 }
 
 //get word from k bits and use it to get code from the tree
 void Hufftree::Encode(int k)
 {
+
+    GenerateHeader(k);
+
     stream->return_myFile_to_begining();
     stream->read_from_file();
 

@@ -27,17 +27,16 @@ int main(int argc, char *argv[]) {
 				h.find_bijection(k);
 				h.print_bijection();
 
-				h.GenerateHeader(k);
 				h.Encode(k);
 
-				cout << "File " << originalFile << " encoded to file " << endcodedFile << endl; 
+				cout << "File " << originalFile << " encoded to file " << endcodedFile << endl;
 				break;
 			}
 			case 2:{
 				cout << "Decoded file name: ";
 				cin >> decodedFile;
 				Decoding d(endcodedFile, decodedFile);
-				cout << "File " << endcodedFile << " decoded to file " << decodedFile << endl; 
+				cout << "File " << endcodedFile << " decoded to file " << decodedFile << endl;
 				break;
 			}
 			default:{
