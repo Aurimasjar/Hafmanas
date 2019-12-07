@@ -70,6 +70,8 @@ class Hufftree
 		int quantity;
 		HuffCodeMap codes;
 		int lastBitamm;
+		int biggest_freq;
+		int bits_for_biggest_freq;
 
 		//vector<int> encodedBuff;
 
@@ -82,6 +84,7 @@ class Hufftree
 		void find_bijection(int k);
 		void print_bijection();
 		void set_frequency_table(int word, int frequency);
+		int set_bits_to_write_a_number(int number);
 
 		INode* BuildTree(int k);
 		void GenerateCodes(const INode* node, const HuffCode &prefix, HuffCodeMap &outCodes);

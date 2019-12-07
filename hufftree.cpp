@@ -2,6 +2,7 @@
 
 Hufftree::Hufftree(string filename,string compfilename, int k)
 {
+	biggest_freq = 0;
 	quantity = pow(2, k);
 	freq.resize(quantity);
 	stream = new Streamer(filename, compfilename);
@@ -18,6 +19,22 @@ Hufftree::Hufftree(Streamer *str, int k)
 Hufftree::~Hufftree()
 {
     clean_stream();
+}
+
+int Hufftree::set_bits_to_write_a_number(int number)
+{
+	int bits_count = 0;
+	int ndal = number-1;
+	while(true)
+	{
+		ndal /= 2;
+		bits_count++;
+		if(ndal == 0)
+		{
+			break;
+		}
+	}
+	return bits_count;
 }
 
 void Hufftree::get_frequency_table(int k)
@@ -59,8 +76,14 @@ INode* Hufftree::BuildTree(int k)
 		{
 			//word with frequency >0 found: addding to queue (it automatically resorts it)
 			trees.push(new LeafNode(freq[i], i));
+			if(freq[i] > biggest_freq)
+			{
+				biggest_freq = freq[i];
+			}
 		}
 	}
+	bits_for_biggest_freq = set_bits_to_write_a_number(biggest_freq);
+
 	while (trees.size() > 1)
 	{
 		//two values with smallest frequencies are assigned to nodes, their sum becomes the value of their parent, parent is added to tree
