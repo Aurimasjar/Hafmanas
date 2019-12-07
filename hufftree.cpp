@@ -161,7 +161,7 @@ int Hufftree::FindMaxCodeLen(vector<int> keys)
     return max_len;
 }
 
-//Generates and prints number from decimal to binary
+//Generates and prints number from decimal to binary, l is wanted length of the set of bits, Dec is the integer that is going to be converted to bin. !!make sure that Dec fits in to l bits!!
 vector<bool> Hufftree::GenLBitSet(int l, int Dec)
 {
     bitset<64> key_bit_set(Dec);
@@ -184,6 +184,7 @@ vector<bool> Hufftree::GenLBitSet(int l, int Dec)
    return key_bit_vector;
 }
 
+//Generates the header, current structure 4bit - (k-1) , 4bit - skip bit amount, 5bit - size_of_frequency, k bit - (word amount - 1), k bit - word, size_of_frequency bit - the frequency
 void Hufftree::GenerateHeader(int k)
 {
     int k_for_bin = k-1;
@@ -197,17 +198,9 @@ void Hufftree::GenerateHeader(int k)
         j++;
     }
 
-    /*for(int i = 0; i < k_bool_bits.size(); i++)
-    {
-        cout<<k_bool_bits[i]<<" ";
-    }
-    cout<<endl;*/
 
-   //cout<<k_bits.to_string()<<endl;
-
+    //Puts k in to bit buffer
     stream->put_bits_in_to_bitset(k_bool_bits);
-
-
 
     vector<int> keys;
     for(map<int, HuffCode>::iterator it = codes.begin(); it != codes.end(); ++it) {
@@ -227,41 +220,30 @@ void Hufftree::GenerateHeader(int k)
         lastBitamm = 0;
     }
 
+    //puts skip bit amount
     stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
 
     cout<<lastBitamm<<endl;
 
+    //puts the size of max freq
+    cout<<bits_for_biggest_freq<<endl;
+    stream->put_bits_in_to_bitset(GenLBitSet(5, bits_for_biggest_freq));
+
+    int word_amount = keys.size()-1;
+
+    //puts the amount of words
+    stream->put_bits_in_to_bitset(GenLBitSet(k,word_amount));
 
 
-    //int nH = FindMaxCodeLen(keys);
-
-    //GenLBitSet(8, nH);
-    stream->put_bits_in_to_bitset(GenLBitSet(16,keys.size()));
-
+    //puts word and its freq
     for(int i = 0; i < keys.size(); i++)
     {
 
-       // cout<<keys[i]<<" ";
         stream->put_bits_in_to_bitset(GenLBitSet(k, keys[i]));
 
-        //cout<<keys[i]<<" "<<freq[keys[i]]<<endl;
-        //cout<<freq[97]<<endl;
-        //
-        stream->put_bits_in_to_bitset(GenLBitSet(32, freq[keys[i]]));
-
-       //  stream->put_bits_in_to_bitset(codes[keys[i]]);
+        stream->put_bits_in_to_bitset(GenLBitSet(bits_for_biggest_freq, freq[keys[i]]));
 
     }
-   // cout<<endl;
-
-    //cout<<keys.size()<<endl;
-
-
-   /* if(stream->lastConverted == false)
-    {
-        stream->bitset_to_bytes();
-        //stream->write_to_file();
-    }*/
 
 }
 
@@ -271,10 +253,12 @@ void Hufftree::Encode(int k)
 
     GenerateHeader(k);
 
+    //resets the reading file for encoding
     stream->return_myFile_to_begining();
+
     stream->read_from_file();
 
-
+    //pushes the code by lastBitamm bit
     stream->put_bits_in_to_bitset(GenLBitSet(lastBitamm, 0));
 
     while(1)
@@ -292,6 +276,8 @@ void Hufftree::Encode(int k)
        }
     }
 
+
+    //checks if the last set of bits were written, if not writes them to the file
     if(stream->lastConverted == false)
     {
         stream->bitset_to_bytes();
