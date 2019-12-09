@@ -8,10 +8,12 @@ Decoding::Decoding(string fileRec, string fileWrite)
     k = stream->w + 1;
     stream->get_k_bits(4);
     ignore = stream->w;
+	stream->get_k_bits(5);
+	fLen = stream->w;
     hufftree = new Hufftree(stream, k);
     cout << "k = " << k << endl;
-    stream->get_k_bits(16);
-    wordCount = stream->w;
+    stream->get_k_bits(k);
+    wordCount = stream->w + 1;
     cout << "wordCount = " << wordCount << endl;
     cout << "ignore = " << ignore << endl;
     cout << "Atempting to make table." << endl;
@@ -30,7 +32,7 @@ void Decoding::ReadTable()
         if(stream->get_k_bits(k) == 1) // all bits were succesfuly read
             ascii = stream->w;
         //cout << "ascii: " << ascii << endl;
-        if(stream->get_k_bits(32) == 1) // all bits were succesfuly read
+        if(stream->get_k_bits(fLen) == 1) // all bits were succesfuly read
             asciiCount = stream->w;
         //cout << "asciiCount: " << asciiCount << endl;
         hufftree->set_frequency_table(ascii, asciiCount);
@@ -96,6 +98,6 @@ void Decoding::Decode()
 
 Decoding::~Decoding()
 {
-    delete hufftree;
+    //delete hufftree;
     delete stream;
 }

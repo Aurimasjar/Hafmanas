@@ -26,6 +26,7 @@ class Decoding
         int wordCount;
         int ignore;
         //hufftree.freq = 0;
+			int fLen;
 
         Decoding(string fileRec, string fileWrite);
         ~Decoding();
