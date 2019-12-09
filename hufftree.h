@@ -73,6 +73,7 @@ class Hufftree
 		int biggest_freq;
 		int bits_for_biggest_freq;
 
+		int headerLastBitAm;
 		//vector<int> encodedBuff;
 
 		Hufftree(string filename, string compfilename, int k);
@@ -96,7 +97,7 @@ class Hufftree
 		HuffCodeMap getCodes();
 
 		vector<bool> GenLBitSet(int l, int Dec);
-	
+
 		void Encode(int k);
 };
 

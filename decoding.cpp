@@ -6,16 +6,14 @@ Decoding::Decoding(string fileRec, string fileWrite)
     stream = new Streamer(fileRec, fileWrite, 1);
     stream->get_k_bits(4);
     k = stream->w + 1;
-    stream->get_k_bits(4);
-    ignore = stream->w;
 	stream->get_k_bits(5);
-	fLen = stream->w;
+	fLen = stream->w + 1;
     hufftree = new Hufftree(stream, k);
     cout << "k = " << k << endl;
     stream->get_k_bits(k);
     wordCount = stream->w + 1;
     cout << "wordCount = " << wordCount << endl;
-    cout << "ignore = " << ignore << endl;
+    //cout << "ignore = " << ignore << endl;
     cout << "Atempting to make table." << endl;
     ReadTable();
     cout << "Attempting to build a tree." << endl;
@@ -37,6 +35,9 @@ void Decoding::ReadTable()
         //cout << "asciiCount: " << asciiCount << endl;
         hufftree->set_frequency_table(ascii, asciiCount);
     }
+    stream->get_k_bits(4);
+    ignore = stream->w;
+    cout << "ignore = " << ignore << endl;
     stream->get_k_bits(ignore);
 }
 

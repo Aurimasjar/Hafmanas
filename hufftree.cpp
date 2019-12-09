@@ -184,7 +184,7 @@ vector<bool> Hufftree::GenLBitSet(int l, int Dec)
    return key_bit_vector;
 }
 
-//Generates the header, current structure 4bit - (k-1) , 4bit - skip bit amount, 5bit - size_of_frequency, k bit - (word amount - 1), k bit - word, size_of_frequency bit - the frequency
+//Generates the header, current structure 4bit - (k-1) , 5bit - size_of_frequency-1, k bit - (word amount - 1), k bit - word, size_of_frequency bit - the frequency,4bit - skip bit amount
 void Hufftree::GenerateHeader(int k)
 {
     int k_for_bin = k-1;
@@ -198,9 +198,11 @@ void Hufftree::GenerateHeader(int k)
         j++;
     }
 
+    uint64_t headAm = 0;
 
     //Puts k in to bit buffer
     stream->put_bits_in_to_bitset(k_bool_bits);
+    headAm +=4;
 
     vector<int> keys;
     for(map<int, HuffCode>::iterator it = codes.begin(); it != codes.end(); ++it) {
@@ -215,24 +217,28 @@ void Hufftree::GenerateHeader(int k)
         codeAmm += freq[keys[i]] * codes[keys[i]].size();
     }
 
-    lastBitamm = 8-(codeAmm%8);
+    /*lastBitamm = 8-(codeAmm%8);
     if(lastBitamm == 8){
         lastBitamm = 0;
     }
 
     //puts skip bit amount
     stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
+    headAm +=4;
 
-    cout<<lastBitamm<<endl;
+    cout<<lastBitamm<<endl;*/
 
     //puts the size of max freq
     cout<<bits_for_biggest_freq<<endl;
-    stream->put_bits_in_to_bitset(GenLBitSet(5, bits_for_biggest_freq));
+    int freq_bits = bits_for_biggest_freq - 1;
+    stream->put_bits_in_to_bitset(GenLBitSet(5, freq_bits));
+    headAm +=5;
 
     int word_amount = keys.size()-1;
 
     //puts the amount of words
     stream->put_bits_in_to_bitset(GenLBitSet(k,word_amount));
+    headAm +=k;
 
 
     //puts word and its freq
@@ -243,7 +249,41 @@ void Hufftree::GenerateHeader(int k)
 
         stream->put_bits_in_to_bitset(GenLBitSet(bits_for_biggest_freq, freq[keys[i]]));
 
+        headAm = headAm + k + bits_for_biggest_freq;
+
     }
+
+    lastBitamm = 8-(codeAmm%8);
+    if(lastBitamm == 8){
+        lastBitamm = 0;
+    }
+
+
+    cout<<"test1: "<<codeAmm%8<<endl;
+    headAm+=5;
+    headerLastBitAm = 8-(headAm%8);
+    if(headerLastBitAm == 8){
+        headerLastBitAm = 0;
+    }
+
+    cout<<"test2: "<<headAm%8<<endl;
+
+    cout<<codeAmm<<endl;
+    cout<<headAm<<endl;
+
+
+    lastBitamm +=headerLastBitAm;
+
+
+    while(lastBitamm>=8){
+        lastBitamm -=8;
+    }
+
+    //puts skip bit amount
+    stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
+    //headAm +=4;
+    cout<<lastBitamm<<endl;
+    cout<<headerLastBitAm<<endl;
 
 }
 
