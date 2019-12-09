@@ -40,6 +40,7 @@ void Decoding::ReadTable()
     cout << "ignore = " << ignore << endl;
     stream->get_k_bits(k);
     tailBits = k - stream->w;
+    tB = stream->w;
     cout << "Tail bits:" << tailBits << endl;
     stream->get_k_bits(ignore);
 }
@@ -63,7 +64,16 @@ void Decoding::Decode()
                 if(tmp == it->second) {
                     //cout<<it->first<<endl;
                     //hufftree->GenLBitSet(k,it->first);
+
+                     cout << "TEST2" << endl;
+
                     vector <bool> last = hufftree->GenLBitSet(k,it->first);
+
+                    for(int i = 0; i < last.size(); i++){
+                        cout<<last[i]<<" ";
+                    }
+                    cout<<endl;
+
                     for (int i = 0; i < tailBits; i++){
                         cout << "Discarded: " << last[last.size()-1] << endl;
                         last.pop_back();

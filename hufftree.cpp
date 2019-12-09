@@ -254,7 +254,7 @@ void Hufftree::GenerateHeader(int k)
 
 
     cout<<"test1: "<<codeAmm%8<<endl;
-    headAm+=5;
+    headAm+=4;
 
     headAm +=k;
 
