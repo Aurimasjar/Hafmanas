@@ -39,7 +39,8 @@ void Decoding::ReadTable()
     ignore = stream->w;
     cout << "ignore = " << ignore << endl;
     stream->get_k_bits(k);
-    tailBits = stream->w;
+    tailBits = k - stream->w;
+    cout << "Tail bits:" << tailBits << endl;
     stream->get_k_bits(ignore);
 }
 
@@ -51,10 +52,11 @@ void Decoding::Decode()
     vector <bool> tmp;
 
     //hufftree->GenLBitSet();
-
-    while(true)
+    bool flag = true;
+    while(flag)
     {
         if(stream->get_k_bits(1) == 0){
+            cout << "TEST" << endl;
             tmp.push_back(stream->w);
             for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
             {
@@ -62,27 +64,33 @@ void Decoding::Decode()
                     //cout<<it->first<<endl;
                     //hufftree->GenLBitSet(k,it->first);
                     vector <bool> last = hufftree->GenLBitSet(k,it->first);
-                    for (int i = 0; i < tailBits; i++)
+                    for (int i = 0; i < tailBits; i++){
+                        cout << "Discarded: " << last[last.size()-1] << endl;
                         last.pop_back();
+                    }
                     stream->put_bits_in_to_bitset(last);
+                    //stream->put_bits_in_to_bitset(hufftree->GenLBitSet(k,it->first));
                     tmp.clear();
                     break;
                 }
             }
+            flag = false;
             break;
         }
-        tmp.push_back(stream->w);
-        for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
-        {
-            if(tmp == it->second) {
-                //cout<<(char)it->first;
-                //cout<<it->first<<" dec "<<endl;
-                //hufftree->GenLBitSet(k,it->first);
+        else{
+            tmp.push_back(stream->w);
+            for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
+            {
+                if(tmp == it->second) {
+                    //cout<<(char)it->first;
+                    //cout<<it->first<<" dec "<<endl;
+                    //hufftree->GenLBitSet(k,it->first);
 
-                //stream->buffer_to_file((char)it->first);
-                stream->put_bits_in_to_bitset(hufftree->GenLBitSet(k,it->first));
-                tmp.clear();
-                break;
+                    //stream->buffer_to_file((char)it->first);
+                    stream->put_bits_in_to_bitset(hufftree->GenLBitSet(k,it->first));
+                    tmp.clear();
+                    break;
+                }
             }
         }
     }
