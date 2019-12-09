@@ -38,6 +38,8 @@ void Decoding::ReadTable()
     stream->get_k_bits(4);
     ignore = stream->w;
     cout << "ignore = " << ignore << endl;
+    stream->get_k_bits(k);
+    tailBits = stream->w;
     stream->get_k_bits(ignore);
 }
 
@@ -59,8 +61,10 @@ void Decoding::Decode()
                 if(tmp == it->second) {
                     //cout<<it->first<<endl;
                     //hufftree->GenLBitSet(k,it->first);
-
-                    stream->put_bits_in_to_bitset(hufftree->GenLBitSet(k,it->first));
+                    vector <bool> last = hufftree->GenLBitSet(k,it->first);
+                    for (int i = 0; i < tailBits; i++)
+                        last.pop_back();
+                    stream->put_bits_in_to_bitset(last);
                     tmp.clear();
                     break;
                 }
