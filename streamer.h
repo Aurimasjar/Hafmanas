@@ -30,7 +30,10 @@ class Streamer
 		int ofCursor = 0;
 		ofstream compFile;
 		bool lastConverted = false;
-		
+
+
+		int lBit = 0;
+
 		Streamer(string file, string cFile);
 		Streamer(string file, string cFile, int i);
 		~Streamer();

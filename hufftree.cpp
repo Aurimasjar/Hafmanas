@@ -210,23 +210,6 @@ void Hufftree::GenerateHeader(int k)
        // cout << it->first << "\n";
     }
 
-    uint64_t  codeAmm = 0;
-    for(int i = 0; i<keys.size(); i++)
-    {
-       // cout<<freq[keys[i]]<<" "<<codes[keys[i]].size()<<" "<<keys[i]<<endl;
-        codeAmm += freq[keys[i]] * codes[keys[i]].size();
-    }
-
-    /*lastBitamm = 8-(codeAmm%8);
-    if(lastBitamm == 8){
-        lastBitamm = 0;
-    }
-
-    //puts skip bit amount
-    stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
-    headAm +=4;
-
-    cout<<lastBitamm<<endl;*/
 
     //puts the size of max freq
     cout<<bits_for_biggest_freq<<endl;
@@ -253,6 +236,17 @@ void Hufftree::GenerateHeader(int k)
 
     }
 
+
+    uint64_t  codeAmm = 0;
+    for(int i = 0; i<keys.size(); i++)
+    {
+       // cout<<freq[keys[i]]<<" "<<codes[keys[i]].size()<<" "<<keys[i]<<endl;
+        codeAmm += freq[keys[i]] * codes[keys[i]].size();
+    }
+
+
+    //int eBit = codeAmm%k;
+
     lastBitamm = 8-(codeAmm%8);
     if(lastBitamm == 8){
         lastBitamm = 0;
@@ -261,6 +255,9 @@ void Hufftree::GenerateHeader(int k)
 
     cout<<"test1: "<<codeAmm%8<<endl;
     headAm+=5;
+
+    headAm +=k;
+
     headerLastBitAm = 8-(headAm%8);
     if(headerLastBitAm == 8){
         headerLastBitAm = 0;
@@ -281,9 +278,11 @@ void Hufftree::GenerateHeader(int k)
 
     //puts skip bit amount
     stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
+    stream->put_bits_in_to_bitset(GenLBitSet(k, stream->lBit));
     //headAm +=4;
     cout<<lastBitamm<<endl;
     cout<<headerLastBitAm<<endl;
+    cout<<"Last bits"<<stream->lBit<<endl;
 
 }
 
@@ -306,7 +305,7 @@ void Hufftree::Encode(int k)
         if(stream->get_k_bits(k) == 0)
         {
             stream->put_bits_in_to_bitset(codes[stream->w]);
-
+            cout<<"Last Word: "<<stream->w<<endl;
             break;
         }
        stream->put_bits_in_to_bitset(codes[stream->w]);

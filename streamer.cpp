@@ -44,10 +44,13 @@ void Streamer::get_bits(char s[B])
 int Streamer::get_k_bits(int k)
 {
 	w = 0;
+	lBit = 0;
 	for(int i = k-1; i >= 0; i--)
 	{
 		w += b[cursor]*pow(2, i);
 		cursor++;
+
+        lBit +=1;
 
 		if(n > 0)
 		{
@@ -82,6 +85,7 @@ void Streamer::return_myFile_to_begining()
     lastConverted = false;
     ofBConPos = 0;
     ofBuffSize = 0;
+    lBit = 0;
     //ofCursor = 0;
     //ofB.reset();
 
