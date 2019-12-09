@@ -31,7 +31,7 @@ void Decoding::ReadTable()
             ascii = stream->w;
         //cout << "ascii: " << ascii << endl;
         if(stream->get_k_bits(fLen) == 1) // all bits were succesfuly read
-            asciiCount = stream->w;
+            asciiCount = stream->w+1;
         //cout << "asciiCount: " << asciiCount << endl;
         hufftree->set_frequency_table(ascii, asciiCount);
     }

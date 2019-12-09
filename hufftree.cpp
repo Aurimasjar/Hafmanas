@@ -247,7 +247,7 @@ void Hufftree::GenerateHeader(int k)
 
         stream->put_bits_in_to_bitset(GenLBitSet(k, keys[i]));
 
-        stream->put_bits_in_to_bitset(GenLBitSet(bits_for_biggest_freq, freq[keys[i]]));
+        stream->put_bits_in_to_bitset(GenLBitSet(bits_for_biggest_freq, freq[keys[i]]-1));
 
         headAm = headAm + k + bits_for_biggest_freq;
 
