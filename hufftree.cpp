@@ -270,10 +270,10 @@ void Hufftree::Encode(int k)
             break;
         }
        stream->put_bits_in_to_bitset(codes[stream->w]);
-       if (stream->w == 13)
+       /*if (stream->w == 13)
        {
            stream->get_k_bits(k);
-       }
+       }*/
     }
 
 
