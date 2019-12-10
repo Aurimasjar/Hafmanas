@@ -105,10 +105,10 @@ void Hufftree::GenerateCodes(const INode* node, const HuffCode &prefix, HuffCode
 	//if leaf is reached, stop and save Hufmann code, else go further
 	if (const LeafNode* lf = dynamic_cast<const LeafNode*>(node))
 	{
-		cout << lf->c << " -> ";
+		//cout << lf->c << " -> ";
 		for (std::vector<bool>::const_iterator i = prefix.begin(); i != prefix.end(); ++i)
-    		std::cout << *i;
-		cout << endl;
+    		//std::cout << *i;
+		//cout << endl;
 
 		outCodes[lf->c] = prefix;
 	}
@@ -217,7 +217,7 @@ void Hufftree::GenerateHeader(int k)
 
 
     //puts the size of max freq
-    cout<<bits_for_biggest_freq<<endl;
+   // cout<<bits_for_biggest_freq<<endl;
     int freq_bits = bits_for_biggest_freq - 1;
     stream->put_bits_in_to_bitset(GenLBitSet(5, freq_bits));
     headAm +=5;
@@ -258,7 +258,7 @@ void Hufftree::GenerateHeader(int k)
     }
 
 
-    cout<<"test1: "<<codeAmm%8<<endl;
+   // cout<<"test1: "<<codeAmm%8<<endl;
     headAm+=4;
 
     headAm +=k;
@@ -268,10 +268,10 @@ void Hufftree::GenerateHeader(int k)
         headerLastBitAm = 0;
     }
 
-    cout<<"test2: "<<headAm%8<<endl;
+   // cout<<"test2: "<<headAm%8<<endl;
 
-    cout<<codeAmm<<endl;
-    cout<<headAm<<endl;
+  //  cout<<codeAmm<<endl;
+  //  cout<<headAm<<endl;
 
 
     lastBitamm +=headerLastBitAm;
@@ -285,9 +285,9 @@ void Hufftree::GenerateHeader(int k)
     stream->put_bits_in_to_bitset(GenLBitSet(4, lastBitamm));
     stream->put_bits_in_to_bitset(GenLBitSet(k, stream->lBit));
     //headAm +=4;
-    cout<<lastBitamm<<endl;
-    cout<<headerLastBitAm<<endl;
-    cout<<"Last bits"<<stream->lBit<<endl;
+  //  cout<<lastBitamm<<endl;
+ //   cout<<headerLastBitAm<<endl;
+  //  cout<<"Last bits"<<stream->lBit<<endl;
 
 }
 
@@ -310,7 +310,7 @@ void Hufftree::Encode(int k)
         if(stream->get_k_bits(k) == 0)
         {
             stream->put_bits_in_to_bitset(codes[stream->w]);
-            cout<<"Last Word: "<<stream->w<<endl;
+           // cout<<"Last Word: "<<stream->w<<endl;
             break;
         }
        stream->put_bits_in_to_bitset(codes[stream->w]);
