@@ -29,6 +29,7 @@ class Decoding
 		int fLen;
         int tailBits;
         int tB = 0;
+        bool end = false;
 
 		INode *root;		
 
