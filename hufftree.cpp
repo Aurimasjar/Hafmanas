@@ -105,6 +105,11 @@ void Hufftree::GenerateCodes(const INode* node, const HuffCode &prefix, HuffCode
 	//if leaf is reached, stop and save Hufmann code, else go further
 	if (const LeafNode* lf = dynamic_cast<const LeafNode*>(node))
 	{
+		cout << lf->c << " -> ";
+		for (std::vector<bool>::const_iterator i = prefix.begin(); i != prefix.end(); ++i)
+    		std::cout << *i;
+		cout << endl;
+
 		outCodes[lf->c] = prefix;
 	}
 	else if (const InternalNode* in = dynamic_cast<const InternalNode*>(node))

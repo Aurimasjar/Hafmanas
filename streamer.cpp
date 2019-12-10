@@ -122,7 +122,7 @@ void Streamer::bitset_to_bytes()
     ofBuffSize = 0;
     char oneBuff = 0;
 
-    bool flag = true;
+
     while(ofBConPos < ofCursor){
 
         oneBuff = 0;
@@ -139,14 +139,10 @@ void Streamer::bitset_to_bytes()
             if (bit8[j])
                 oneBuff |= 1 << j;
         }
-        
-        if(oneBuff == '\n' && flag){
-            flag = false;
-        } else {
-            ofBuffer[ofBuffSize] = oneBuff;
-            ofBuffSize++;
-            flag = true;
-        }
+
+        ofBuffer[ofBuffSize] = oneBuff;
+        ofBuffSize++;
+
 
         bit8.reset();
     }
