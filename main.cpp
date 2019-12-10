@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 				cin >> k;
 				Hufftree h(originalFile, endcodedFile, k);
 				h.find_bijection(k);
-				h.print_bijection();
+				//h.print_bijection();
 
 				h.Encode(k);
 

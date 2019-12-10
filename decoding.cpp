@@ -9,15 +9,16 @@ Decoding::Decoding(string fileRec, string fileWrite)
 	stream->get_k_bits(5);
 	fLen = stream->w + 1;
     hufftree = new Hufftree(stream, k);
-    cout << "k = " << k << endl;
+    //cout << "k = " << k << endl;
     stream->get_k_bits(k);
     wordCount = stream->w + 1;
-    cout << "wordCount = " << wordCount << endl;
+    //cout << "wordCount = " << wordCount << endl;
     //cout << "ignore = " << ignore << endl;
-    cout << "Atempting to make table." << endl;
+    //cout << "Atempting to make table." << endl;
     ReadTable();
-    cout << "Attempting to build a tree." << endl;
-    hufftree->find_bijection(k);
+    //cout << "Attempting to build a tree." << endl;
+    //hufftree->find_bijection(k); //o gal build tree?
+	root = hufftree->BuildTree(k);
     //hufftree->print_bijection();
     Decode();
 }
@@ -37,13 +38,14 @@ void Decoding::ReadTable()
     }
     stream->get_k_bits(4);
     ignore = stream->w;
-    cout << "ignore = " << ignore << endl;
+    //cout << "ignore = " << ignore << endl;
     stream->get_k_bits(k);
     tailBits = k - stream->w;
     tB = stream->w;
-    cout << "Tail bits:" << tailBits << endl;
+    //cout << "Tail bits:" << tailBits << endl;
     stream->get_k_bits(ignore);
 }
+
 
 void Decoding::Decode()
 {
@@ -57,7 +59,7 @@ void Decoding::Decode()
     while(flag)
     {
         if(stream->get_k_bits(1) == 0){
-            cout << "TEST" << endl;
+            //cout << "TEST" << endl;
             tmp.push_back(stream->w);
             for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
             {
@@ -65,17 +67,17 @@ void Decoding::Decode()
                     //cout<<it->first<<endl;
                     //hufftree->GenLBitSet(k,it->first);
 
-                     cout << "TEST2" << endl;
+                     //cout << "TEST2" << endl;
 
                     vector <bool> last = hufftree->GenLBitSet(k,it->first);
 
-                    for(int i = 0; i < last.size(); i++){
+                    /*for(int i = 0; i < last.size(); i++){
                         cout<<last[i]<<" ";
                     }
-                    cout<<endl;
+                    cout<<endl;*/
 
                     for (int i = 0; i < tailBits; i++){
-                        cout << "Discarded: " << last[last.size()-1] << endl;
+                        //cout << "Discarded: " << last[last.size()-1] << endl;
                         last.pop_back();
                     }
                     stream->put_bits_in_to_bitset(last);
@@ -89,7 +91,10 @@ void Decoding::Decode()
         }
         else{
             tmp.push_back(stream->w);
-            for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
+				k_word = get_code_from_tree(root, tmp); //returns first element of the map
+				stream->put_bits_in_to_bitset(hufftree->GenLBitSet(k, k_word));
+				tmp.clear();
+            /*for (HuffCodeMap::const_iterator it = codes.begin(); it != codes.end(); it++)
             {
                 if(tmp == it->second) {
                     //cout<<(char)it->first;
@@ -101,7 +106,7 @@ void Decoding::Decode()
                     tmp.clear();
                     break;
                 }
-            }
+            }*/
         }
     }
 
@@ -116,6 +121,30 @@ void Decoding::Decode()
         //stream->write_to_file();
     }
 
+}
+
+
+int Decoding::get_code_from_tree(INode *node, vector<bool> coded)
+{
+	if (const LeafNode* lf = dynamic_cast<const LeafNode*>(node))
+	{
+		return lf->c;
+	}
+	else
+	{
+		stream->get_k_bits(1);
+		if(stream->w == 0)
+		{
+			coded.push_back(0);
+			get_code_from_tree(node->left, coded);
+		}
+		else
+		{
+			coded.push_back(1);
+			get_code_from_tree(node->right, coded);
+		}
+	}
+	return -1; //bet reiktu kazkokiu budu grazinti paskutinius nuskaitytus bitus
 }
 
 

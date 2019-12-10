@@ -30,11 +30,14 @@ class Decoding
         int tailBits;
         int tB = 0;
 
+		*INode root;		
+
         Decoding(string fileRec, string fileWrite);
         ~Decoding();
 
         void ReadTable();
         void Decode();
+		int get_code_from_tree(INode *node, vector<bool> coded);
 
 };
 
